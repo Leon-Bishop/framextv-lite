@@ -15,8 +15,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Ensure Android 35 SDK components
+        run: |
+          echo "ANDROID_HOME=${ANDROID_HOME}"
+          if ! command -v sdkmanager >/dev/null 2>&1; then
+            export PATH="${ANDROID_HOME}/cmdline-tools/latest/bin:${PATH}"
+          fi
+          sdkmanager --install "platforms;android-35" "build-tools;35.0.0"
       - name: Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
