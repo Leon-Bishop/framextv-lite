@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    paths-ignore:
+      - 'downloads/**'
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -28,9 +32,20 @@ jobs:
           gradle-version: '8.7'
       - name: Compile installable debug APK
         run: gradle --no-daemon :app:assembleDebug
-      - name: Save APK
+      - name: Save APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: FrameXTV-Lite-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+      - name: Publish APK for direct public download
+        run: |
+          mkdir -p downloads
+          cp app/build/outputs/apk/debug/app-debug.apk downloads/framextv-lite.apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/framextv-lite.apk
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish latest FrameXTV Lite APK [skip ci]"
+            git push
+          fi
