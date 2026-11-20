@@ -51,7 +51,7 @@ jobs:
           cp app/build/outputs/apk/tv11/debug/app-tv11-debug.apk downloads/framextv-lite-tv11.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/framextv-lite.apk
+          git add -f downloads/framextv-lite.apk downloads/framextv-lite-tv11.apk
           if ! git diff --cached --quiet; then
             git commit -m "Publish latest FrameXTV Lite APK [skip ci]"
             git push
