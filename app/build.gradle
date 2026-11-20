@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'io.framextv.lite'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'io.framextv.lite'
+        minSdk 21
+        targetSdk 28
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+// Deliberately no third-party libraries: Android's native widgets and WebView only.
