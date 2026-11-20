@@ -31,17 +31,24 @@ jobs:
         with:
           gradle-version: '8.7'
       - name: Compile installable debug APK
-        run: gradle --no-daemon :app:assembleDebug
+        run: gradle --no-daemon :app:assembleStandardDebug :app:assembleTv11Debug
       - name: Save APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: FrameXTV-Lite-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/standard/debug/app-standard-debug.apk
+          if-no-files-found: error
+      - name: Save Android 11 variant artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrameXTV-Lite-TV11-APK
+          path: app/build/outputs/apk/tv11/debug/app-tv11-debug.apk
           if-no-files-found: error
       - name: Publish APK for direct public download
         run: |
           mkdir -p downloads
-          cp app/build/outputs/apk/debug/app-debug.apk downloads/framextv-lite.apk
+          cp app/build/outputs/apk/standard/debug/app-standard-debug.apk downloads/framextv-lite.apk
+          cp app/build/outputs/apk/tv11/debug/app-tv11-debug.apk downloads/framextv-lite-tv11.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add downloads/framextv-lite.apk
