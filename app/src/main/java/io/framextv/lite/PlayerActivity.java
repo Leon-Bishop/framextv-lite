@@ -237,8 +237,6 @@ public final class PlayerActivity extends Activity {
                 return false;
         }
     }
-    private boolean handlePlayerKey(int key) {
-
     private void showHint(String value) {
         if (hint == null) return;
         hint.setText(value);
@@ -250,6 +248,9 @@ public final class PlayerActivity extends Activity {
     private final Runnable hideHint = () -> {
         if (hint != null) hint.setVisibility(View.GONE);
     };
+
+
+    private boolean handlePlayerKey(int key) {
 
         switch (key) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
