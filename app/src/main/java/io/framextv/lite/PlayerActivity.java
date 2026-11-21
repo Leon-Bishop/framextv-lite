@@ -101,6 +101,7 @@ public final class PlayerActivity extends Activity {
                 fullScreenView = view;
                 fullScreenCallback = callback;
                 root.addView(view, new FrameLayout.LayoutParams(-1, -1));
+                if (hint != null) root.bringChildToFront(hint);
                 immersive();
             }
             @Override public void onHideCustomView() {
@@ -114,7 +115,7 @@ public final class PlayerActivity extends Activity {
         hint.setTextSize(14);
         hint.setBackgroundColor(0xbb151d23);
         hint.setPadding(dp(14), dp(8), dp(14), dp(8));
-        hint.setText("Loading player…  |  OK Play/Pause  •  ◀▶ Skip 10s  •  Menu Server  •  Hold Menu Reload  •  Back Exit");
+        hint.setText("Loading player…  |  OK Play/Pause  •  ◀▶ Skip 10s  •  Menu Server  •  Hold OK Reload  •  Back Exit");
         FrameLayout.LayoutParams hints = new FrameLayout.LayoutParams(-2, -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
         hints.topMargin = dp(12);
         root.addView(hint, hints);
@@ -199,7 +200,8 @@ public final class PlayerActivity extends Activity {
                 finish();
                 return true;
             }
-            if (key == KeyEvent.KEYCODE_MENU && event.isLongPress()) {
+            if ((key == KeyEvent.KEYCODE_MENU && event.isLongPress()) ||
+                    (key == KeyEvent.KEYCODE_DPAD_CENTER && event.getRepeatCount() == 2)) {
                 reloadPlayer();
                 return true;
             }
